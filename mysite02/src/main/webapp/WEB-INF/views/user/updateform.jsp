@@ -41,7 +41,7 @@
 						<% } else {%>
 						<label>여</label> <input type="radio" name="gender" value="female">
 						<label>남</label> <input type="radio" name="gender" value="male"  checked="checked">
-						<%} %>
+						<% } %>
 					</fieldset>
 					
 					<input type="submit" value="수정하기">
