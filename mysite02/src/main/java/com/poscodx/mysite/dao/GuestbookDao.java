@@ -1,4 +1,4 @@
-package com.poscodx.guestbook.dao;
+package com.poscodx.mysite.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.poscodx.guestbook.vo.GuestbookVo;
+import com.poscodx.mysite.vo.GuestbookVo;
 
 public class GuestbookDao {
 	public Boolean insert(GuestbookVo vo) {

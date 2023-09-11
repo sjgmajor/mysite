@@ -1,4 +1,4 @@
-<%@page import="com.poscodx.guestbook.vo.GuestbookVo"%>
+<%@page import="com.poscodx.mysite.vo.GuestbookVo"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

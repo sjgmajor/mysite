@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.UserVo;
 import com.poscodx.web.mvc.Action;
 import com.poscodx.web.utils.WebUtil;
@@ -24,10 +23,6 @@ public class UpdateformAction implements Action {
 			return;
 		}
 		///////////////////////////////////////////////////////
-		
-		UserVo userVo = new UserDao().findByNo(authUser.getNo());
-		
-		request.setAttribute("authUser", userVo);
 		
 		WebUtil.forward("user/updateform", request, response);
 		

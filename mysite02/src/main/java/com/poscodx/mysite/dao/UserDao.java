@@ -73,7 +73,7 @@ public class UserDao {
 			conn = getConnection();
 			
 			String sql =
-				"select name, password, email, gender" +
+				"select no, name, email, gender" +
 				"  from user" +
 				" where no=?";
 			
@@ -84,14 +84,14 @@ public class UserDao {
 			
 			//5. 결과 처리
 			if(rs.next()) {
-				String name = rs.getString(1);
-				String password = rs.getString(2);
+				Long number = rs.getLong(1);
+				String name = rs.getString(2);
 				String email = rs.getString(3);
 				String gender = rs.getString(4);
 				
 				userVo = new UserVo();
+				userVo.setNo(number);
 				userVo.setName(name);
-				userVo.setPassword(password);
 				userVo.setEmail(email);
 				userVo.setGender(gender);
 			}
@@ -169,16 +169,32 @@ public class UserDao {
 		try {
 			conn = getConnection();
 			
-			String sql =
-				" update user" +
-				"   set password = password(?)"
-				+ "and name = ?"
-				+ "where email=? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, vo.getPassword());
-			pstmt.setString(2, vo.getName());			
-			pstmt.setString(3, vo.getEmail());
+			if("".equals(vo.getPassword())) {
+			    String sql1 =
+			            " update user" +
+			            " set name = ?," +
+			            " gender = ?" +
+			            " where no=? ";
+			        
+			        pstmt = conn.prepareStatement(sql1);
+			        pstmt.setString(1, vo.getName());
+			        pstmt.setString(2, vo.getGender());
+			        pstmt.setLong(3, vo.getNo()); 
+			}
+			else {
+			    String sql2 =
+			        " update user" +
+			        " set password = password(?)," +
+			        " name = ?," +
+			        " gender = ?" +
+			        " where no=? ";
+			    
+			    pstmt = conn.prepareStatement(sql2);
+			    pstmt.setString(1, vo.getPassword());
+			    pstmt.setString(2, vo.getName());
+			    pstmt.setString(3, vo.getGender());
+			    pstmt.setLong(4, vo.getNo());  
+			}
 			
 			int count = pstmt.executeUpdate();
 			
@@ -210,7 +226,7 @@ public class UserDao {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			
-			String url = "jdbc:mariadb://192.168.0.183:3307/webdb?charset=utf8";
+			String url = "jdbc:mariadb://192.168.219.105:3307/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "webdb");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패:" + e);

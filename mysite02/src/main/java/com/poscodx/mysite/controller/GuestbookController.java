@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.poscodx.guestbook.dao.GuestbookDao;
-import com.poscodx.guestbook.vo.GuestbookVo;
+import com.poscodx.mysite.dao.GuestbookDao;
+import com.poscodx.mysite.vo.GuestbookVo;
 
 
 public class GuestbookController extends HttpServlet {

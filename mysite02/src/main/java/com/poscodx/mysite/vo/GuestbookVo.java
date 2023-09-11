@@ -1,4 +1,4 @@
-package com.poscodx.guestbook.vo;
+package com.poscodx.mysite.vo;
 
 public class GuestbookVo {
 	private Long no;
@@ -42,6 +42,14 @@ public class GuestbookVo {
 	public String toString() {
 		return "GuestbookVo [no=" + no + ", name=" + name + ", password=" + password + ", contents=" + contents
 				+ ", reg_date=" + regDate + "]";
+	}
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public String getGender() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
