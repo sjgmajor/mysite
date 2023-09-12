@@ -19,6 +19,7 @@ public class UpdateAction implements Action {
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String gender = request.getParameter("gender");
+		String email = request.getParameter("email");
 
 		HttpSession session = request.getSession();
         UserVo authUser  = (UserVo) session.getAttribute("authUser");
@@ -27,14 +28,15 @@ public class UpdateAction implements Action {
 	    
 	    userVo.setNo(authUser.getNo());
 	    userVo.setName(name);
+	    userVo.setEmail(email);
 	    userVo.setPassword(password);
 	    userVo.setGender(gender);
-
+	    
 	    new UserDao().update(userVo);
 
     	UserVo updatedUserVo = new UserDao().findByNo(authUser.getNo());
 
-	    session.setAttribute("authUser", updatedUserVo);
-	    WebUtil.forward("/user/updateform", request, response);	
+	    session.setAttribute("userVo", updatedUserVo);
+	    WebUtil.forward("/user/updateform", request, response);
     }
 }
