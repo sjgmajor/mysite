@@ -1,7 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ page language="java" contentType="text/jsp; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+pageContext.setAttribute("newline", "\n");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,26 +19,28 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="">
+				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board?a=modify">
 					<table class="tbl-ex">
+					<c:forEach items="${modify }" var="modify">
+					<input type="hidden" name="no" value="${modify.no }">
 						<tr>
 							<th colspan="2">글수정</th>
 						</tr>
 						<tr>
 							<td class="label">제목</td>
-							<td><input type="text" name="title" value=""></td>
+							<td><input type="text" name="title" value="${modify.title}"></td>
 						</tr>
 						<tr>
 							<td class="label">내용</td>
-							<td><textarea id="content" name="content">수정해야 할 글은 고대로 
-이렇게 textarea에 뿌려야 합니다.
-개행문자 변경도 하지마세요.
-하하하하하
-즐건 코딩 되세요~~~~</textarea></td>
+							<td><textarea id="content" name="content"
+							>${modify.contents }</textarea>
+							</td>
 						</tr>
+						</c:forEach>
 					</table>
 					<div class="bottom">
-						<a href="">취소</a> <input type="submit" value="수정">
+						<a href="${pageContext.request.contextPath }/board">취소</a>
+						<input type="submit" value="수정">
 					</div>
 				</form>
 			</div>

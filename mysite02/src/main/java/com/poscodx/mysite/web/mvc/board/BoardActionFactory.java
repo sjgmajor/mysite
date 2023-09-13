@@ -19,8 +19,6 @@ public class BoardActionFactory implements ActionFactory {
 			action = new ModifyFormAction();
 		} else if("modify".equals(actionName)) {
 			action = new ModifyAction();
-		} else if("viewform".equals(actionName)) {
-			action = new ViewFromAction();
 		} else if("view".equals(actionName)) {
 			action = new ViewAction();
 		} else {

@@ -22,7 +22,7 @@
 				</form>
 				<table class="tbl-ex">
 					<tr>
-						<th>번호</th>
+						<th>번호${param.no }</th>
 						<th>제목</th>
 						<th>글쓴이</th>
 						<th>조회수</th>
@@ -31,18 +31,24 @@
 					</tr>
 					<c:set var="count" value="${fn:length(list) }" />
 					<c:forEach items="${list }" var="list" varStatus="status">
+						<input type="hidden" name="no" value="${list.no }">
 						<tr>
 							<td>${count - status.index }</td>
-							<td style="padding-left: ${(list.depth -1)*30 }px">
-							<c:if test="${list.depth >= 2}">
-									<img src="${pageContext.request.contextPath }/assets/images/reply.png">
-							</c:if>
-							<a href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a></td>
+							<td style="padding-left: ${(list.depth -1)*30 }px"><c:if
+									test="${list.depth >= 2}">
+									<img
+										src="${pageContext.request.contextPath }/assets/images/reply.png">
+								</c:if> <a
+								href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a></td>
 							<td>${list.name }</td>
 							<td>${list.hit }</td>
-							<td>${list.regDate }</td>
+							<td>
+							<fmt:parseDate var="parsedRegDate" value="${list.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
+							<fmt:formatDate value="${parsedRegDate}" pattern="yyyy-MM-dd" type="date" /></td>
 							<c:if test="${list.userNo eq authUser.no }">
-								<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no }" class="del">삭제</a></td>
+								<td><a
+									href="${pageContext.request.contextPath }/board?a=delete&no=${list.no }"
+									class="del">삭제</a></td>
 							</c:if>
 						</tr>
 					</c:forEach>
@@ -66,7 +72,7 @@
 					<c:otherwise>
 						<div class="bottom">
 							<a
-								href="${pageContext.request.contextPath }/board?a=write&userNo=${authUser.no}"
+								href="${pageContext.request.contextPath }/board?a=writeform&userNo=${authUser.no }"
 								id="new-book">글쓰기</a>
 						</div>
 					</c:otherwise>
