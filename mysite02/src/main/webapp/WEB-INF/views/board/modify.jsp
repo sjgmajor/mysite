@@ -20,9 +20,8 @@ pageContext.setAttribute("newline", "\n");
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath }/board?a=modify">
-					<table class="tbl-ex">
-					<c:forEach items="${modify }" var="modify">
 					<input type="hidden" name="no" value="${modify.no }">
+					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
 						</tr>
@@ -36,7 +35,6 @@ pageContext.setAttribute("newline", "\n");
 							>${modify.contents }</textarea>
 							</td>
 						</tr>
-						</c:forEach>
 					</table>
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board">취소</a>

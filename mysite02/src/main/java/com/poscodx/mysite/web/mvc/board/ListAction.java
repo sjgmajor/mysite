@@ -1,4 +1,4 @@
-package com.poscodx.mysite.web.mvc.board;
+	package com.poscodx.mysite.web.mvc.board;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,8 +17,9 @@ public class ListAction implements Action {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<BoardVo> list = new BoardDao().findAll();
-
+		
 		request.setAttribute("list", list);
+		
 		WebUtil.forward("board/list", request, response);
 	}
 }

@@ -22,7 +22,7 @@
 				</form>
 				<table class="tbl-ex">
 					<tr>
-						<th>번호${param.no }</th>
+						<th>번호</th>
 						<th>제목</th>
 						<th>글쓴이</th>
 						<th>조회수</th>
@@ -32,6 +32,7 @@
 					<c:set var="count" value="${fn:length(list) }" />
 					<c:forEach items="${list }" var="list" varStatus="status">
 						<input type="hidden" name="no" value="${list.no }">
+						<input type="hidden" name="userNo" value="${list.userNo }">
 						<tr>
 							<td>${count - status.index }</td>
 							<td style="padding-left: ${(list.depth -1)*30 }px"><c:if

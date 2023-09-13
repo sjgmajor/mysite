@@ -9,6 +9,12 @@ import java.sql.SQLException;
 import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
+	
+	private static String forName = "org.mariadb.jdbc.Driver";
+	private static String url = "jdbc:mariadb://192.168.219.104:3307/webdb?charset=utf8";
+	private static String DriverId = "webdb";
+	private static String DriverPassword = "webdb";
+	
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo userVo = null;
 		
@@ -18,7 +24,6 @@ public class UserDao {
 		
 		try {
 			conn = getConnection();
-			
 			String sql =
 				"select no, name" +
 				"  from user" +
@@ -221,18 +226,14 @@ public class UserDao {
 		return result;
 	}
 	
-	private Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException{
 		Connection conn = null;
-
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			
-			String url = "jdbc:mariadb://192.168.0.183:3307/webdb?charset=utf8";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-		
-		return conn;
-	}
+			Class.forName(forName);
+			conn = DriverManager.getConnection(url, DriverId, DriverPassword);
+			} catch (ClassNotFoundException e) {
+				System.out.println("드라이버 로딩 실패: " + e);
+			}
+			return conn;
+		}
 }

@@ -1,7 +1,6 @@
 package com.poscodx.mysite.web.mvc.board;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +18,15 @@ public class ViewAction implements Action {
 		String sno = request.getParameter("no");
 		Long no = Long.parseLong(sno);
 		
-		List<BoardVo> view = new BoardDao().findAllByNo(no);
+		
+		BoardDao dao = new BoardDao();
+		
+		dao.updateByNo(no);
+		
+		BoardVo view = new BoardDao().findAllByNo(no);
+		
 		request.setAttribute("view", view);
+		
 		WebUtil.forward("board/view", request, response);
 		
 	}

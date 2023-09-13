@@ -20,7 +20,6 @@ pageContext.setAttribute("newline", "\n");
 		<div id="content">
 			<div id="board" class="board-form">
 				<input type="hidden" name="no" value="${param.no }">
-				<c:forEach items="${view }" var="view">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글보기</th>
@@ -39,13 +38,12 @@ pageContext.setAttribute("newline", "\n");
 					</table>
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board">글목록</a> <a
-							href="${pageContext.request.contextPath }/board?a=reply">답글</a>
+							href="${pageContext.request.contextPath }/board?a=writeform&no=${view.no }">답글</a>
 						<c:if test="${view.userNo eq authUser.no }">
 							<a
 								href="${pageContext.request.contextPath }/board?a=modifyform&no=${view.no }">글수정</a>
 						</c:if>
 					</div>
-				</c:forEach>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp" />
