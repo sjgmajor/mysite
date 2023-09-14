@@ -17,7 +17,7 @@ public class GuestbookDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = UserDao.getConnection();
+			conn = BoardDao.getConnection();
 			
 			String sql = "delete from guestbook where no = ? and password = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -53,7 +53,7 @@ public class GuestbookDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = UserDao.getConnection();
+			conn = BoardDao.getConnection();
 			
 			String sql = "insert into guestbook values(null, ?, ?, ?, now())";
 			pstmt = conn.prepareStatement(sql);
@@ -93,7 +93,7 @@ public class GuestbookDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = UserDao.getConnection();
+			conn = BoardDao.getConnection();
 			
 			String sql =
 				"    select no, name, contents, date_format(reg_date, '%Y/%m/%d %H:%i:%s')" + 

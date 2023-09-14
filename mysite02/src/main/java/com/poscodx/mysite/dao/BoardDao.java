@@ -1,6 +1,7 @@
 package com.poscodx.mysite.dao;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,8 +11,13 @@ import java.util.List;
 import com.poscodx.mysite.vo.BoardVo;
 
 public class BoardDao {
+	
+	private static String forName = "org.mariadb.jdbc.Driver";
+	private static String url = "jdbc:mariadb://192.168.219.104:3307/webdb?charset=utf8";
+	private static String DriverId = "webdb";
+	private static String DriverPassword = "webdb";
 
-	public List<BoardVo> findAll() {
+	public List<BoardVo> findAllByPage(Long listPage, Long intervalPage) {
 		List<BoardVo> result = new ArrayList<>();
 
 		Connection conn = null;
@@ -19,12 +25,18 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
-			String sql = "   select b.user_no, b.title, a.name, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.no"
-					+ "     from user a, board b" + "    where a.no = b.user_no" + " order by b.g_no desc, b.o_no asc";
+			String sql = "   select b.user_no, b.title, a.name, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.no" + 
+						 "     from user a, board b" + 
+						 "    where a.no = b.user_no" + 
+						 " order by b.g_no desc, b.o_no asc" +
+						 "    limit ?, ?";
+			
 			pstmt = conn.prepareStatement(sql);
-
+			pstmt.setLong(1, listPage);
+			pstmt.setLong(2, intervalPage);
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				Long userNo = rs.getLong(1);
@@ -82,7 +94,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = "delete from board where no = ?";
 			pstmt = conn.prepareStatement(sql);
@@ -118,7 +130,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " insert into board" + " values(null, ?, ?, 0, now(), ?, 1, 1, ?)";
 
@@ -159,7 +171,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " update board set o_no = o_no + 1" + "  where g_no=? and o_no >= ?";
 
@@ -195,7 +207,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " insert into board" + " values(null, ?, ?, 0, now(), ?, ?, ?, ?)";
 
@@ -238,7 +250,7 @@ public class BoardDao {
 		ResultSet rs = null;
 		try {
 
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " select ifnull((select MAX(g_no) from board), 0)" + "   from board";
 
@@ -281,7 +293,7 @@ public class BoardDao {
 		ResultSet rs = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " select b.user_no, b.title, a.name, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.no, b.contents"
 					+ "   from user a, board b" + "  where a.no = b.user_no" + "    and b.no = ?";
@@ -348,7 +360,7 @@ public class BoardDao {
 		boolean result = false;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = " update board" + "    set title = ?, contents = ?" + "  where no = ?";
 
@@ -388,7 +400,7 @@ public class BoardDao {
 		PreparedStatement pstmt = null;
 
 		try {
-			conn = UserDao.getConnection();
+			conn = getConnection();
 
 			String sql = "update board set hit = hit + 1" +
 					     "  where no=?";
@@ -416,4 +428,58 @@ public class BoardDao {
 
 		return result;
 	}
+	
+	public Long findTotalCount() {
+		Long totalCount = null;
+
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+
+			conn = getConnection();
+
+			String sql = " select count(*) from board";
+
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				totalCount = rs.getLong(1);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error:" + e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+
+				if (pstmt != null) {
+					pstmt.close();
+				}
+
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return totalCount;
+	}
+	
+	public static Connection getConnection() throws SQLException{
+		Connection conn = null;
+		try {
+			Class.forName(forName);
+			conn = DriverManager.getConnection(url, DriverId, DriverPassword);
+			} catch (ClassNotFoundException e) {
+				System.out.println("드라이버 로딩 실패: " + e);
+			}
+			return conn;
+		}
 }

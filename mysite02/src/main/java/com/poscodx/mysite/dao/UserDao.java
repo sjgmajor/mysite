@@ -1,7 +1,6 @@
 package com.poscodx.mysite.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,11 +8,6 @@ import java.sql.SQLException;
 import com.poscodx.mysite.vo.UserVo;
 
 public class UserDao {
-	
-	private static String forName = "org.mariadb.jdbc.Driver";
-	private static String url = "jdbc:mariadb://192.168.219.104:3307/webdb?charset=utf8";
-	private static String DriverId = "webdb";
-	private static String DriverPassword = "webdb";
 	
 	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo userVo = null;
@@ -23,7 +17,7 @@ public class UserDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = BoardDao.getConnection();
 			String sql =
 				"select no, name" +
 				"  from user" +
@@ -75,7 +69,7 @@ public class UserDao {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = BoardDao.getConnection();
 			
 			String sql =
 				"select no, name, email, gender" +
@@ -129,7 +123,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = BoardDao.getConnection();
 			
 			String sql =
 				" insert" +
@@ -172,7 +166,7 @@ public class UserDao {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = BoardDao.getConnection();
 			
 			if("".equals(vo.getPassword())) {
 			    String sql1 =
@@ -225,15 +219,4 @@ public class UserDao {
 		
 		return result;
 	}
-	
-	public static Connection getConnection() throws SQLException{
-		Connection conn = null;
-		try {
-			Class.forName(forName);
-			conn = DriverManager.getConnection(url, DriverId, DriverPassword);
-			} catch (ClassNotFoundException e) {
-				System.out.println("드라이버 로딩 실패: " + e);
-			}
-			return conn;
-		}
 }

@@ -34,7 +34,7 @@
 						<input type="hidden" name="no" value="${list.no }">
 						<input type="hidden" name="userNo" value="${list.userNo }">
 						<tr>
-							<td>${count - status.index }</td>
+							<td>${(totalCount - ((page -1) * intervalPage )) - status.index }</td>
 							<td style="padding-left: ${(list.depth -1)*30 }px"><c:if
 									test="${list.depth >= 2}">
 									<img
@@ -43,9 +43,9 @@
 								href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a></td>
 							<td>${list.name }</td>
 							<td>${list.hit }</td>
-							<td>
-							<fmt:parseDate var="parsedRegDate" value="${list.regDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-							<fmt:formatDate value="${parsedRegDate}" pattern="yyyy-MM-dd" type="date" /></td>
+							<td><fmt:parseDate var="parsedRegDate"
+									value="${list.regDate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
+									value="${parsedRegDate}" pattern="yyyy-MM-dd" type="date" /></td>
 							<c:if test="${list.userNo eq authUser.no }">
 								<td><a
 									href="${pageContext.request.contextPath }/board?a=delete&no=${list.no }"
@@ -57,13 +57,45 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+					<li><a
+							href="${pageContext.request.contextPath }/board?page=1">◀◀
+						</a></li>
+					<c:choose>
+							<c:when test="${startPage == 1 }">
+								<li><a
+							href="${pageContext.request.contextPath }/board?page=1">◀
+						</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+							href="${pageContext.request.contextPath }/board?page=${startPage - 1}">◀
+						</a></li>
+							</c:otherwise>
+						</c:choose>
+					
+						<c:forEach begin="${startPage }" end="${endPage }" step="1" var="paging">
+						<c:choose>
+							<c:when test="${paging == page }">
+								<li class="selected"><a
+									href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+									href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+							</c:otherwise>
+						</c:choose>
+						</c:forEach>
+						<c:choose>
+							<c:when test="${totalPage == endPage }">
+							<li><a
+									href="${pageContext.request.contextPath }/board?page=${totalPage}">▶</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a
+							href="${pageContext.request.contextPath }/board?page=${endPage + 1}">▶</a></li>
+							</c:otherwise>
+						</c:choose>
+						<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶▶</a></li>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
