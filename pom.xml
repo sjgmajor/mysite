@@ -20,7 +20,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<url>${192.168.219.104}</url>
+					<url>${tomcat.deploy.url}</url>
 					<server>poscodx-tomcat</server>
 				</configuration>
 			</plugin>
