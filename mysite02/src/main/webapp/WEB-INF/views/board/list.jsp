@@ -57,42 +57,33 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-					<li><a
-							href="${pageContext.request.contextPath }/board?page=1">◀◀
-						</a></li>
+					<li><a href="${pageContext.request.contextPath }/board?page=1">◀◀</a></li>
 					<c:choose>
 							<c:when test="${startPage == 1 }">
-								<li><a
-							href="${pageContext.request.contextPath }/board?page=1">◀
+								<li><a href="${pageContext.request.contextPath }/board?page=1">◀
 						</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a
-							href="${pageContext.request.contextPath }/board?page=${startPage - 1}">◀
-						</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?page=${startPage - 1}">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 					
 						<c:forEach begin="${startPage }" end="${endPage }" step="1" var="paging">
 						<c:choose>
 							<c:when test="${paging == page }">
-								<li class="selected"><a
-									href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+								<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a
-									href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
 							</c:otherwise>
 						</c:choose>
 						</c:forEach>
 						<c:choose>
 							<c:when test="${totalPage == endPage }">
-							<li><a
-									href="${pageContext.request.contextPath }/board?page=${totalPage}">▶</a></li>
+							<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a
-							href="${pageContext.request.contextPath }/board?page=${endPage + 1}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?page=${endPage + 1}">▶</a></li>
 							</c:otherwise>
 						</c:choose>
 						<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶▶</a></li>
@@ -104,8 +95,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="bottom">
-							<a
-								href="${pageContext.request.contextPath }/board?a=writeform&userNo=${authUser.no }"
+							<a href="${pageContext.request.contextPath }/board?a=writeform&userNo=${authUser.no }"
 								id="new-book">글쓰기</a>
 						</div>
 					</c:otherwise>

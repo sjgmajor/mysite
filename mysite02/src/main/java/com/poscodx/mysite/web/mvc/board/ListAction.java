@@ -24,6 +24,9 @@ public class ListAction implements Action {
 		}
 
 		Long totalCount = new BoardDao().findTotalCount();
+		if (totalCount == null) {
+			totalCount = 0L;
+		}
 		Long boardDisplay = 5L;
 		Long intervalPage = 5L;
 		
