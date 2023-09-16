@@ -64,7 +64,7 @@
 						</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${startPage - 1}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath }/board?page=${startPage - intervalPage}">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 					
