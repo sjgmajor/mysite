@@ -34,7 +34,7 @@
 						<input type="hidden" name="no" value="${list.no }">
 						<input type="hidden" name="userNo" value="${list.userNo }">
 						<tr>
-							<td>${(totalCount - ((page -1) * boardDisplay )) - status.index }</td>
+							<td>${(totalCount - ((page -1) * intervalPage )) - status.index }</td>
 							<td style="padding-left: ${(list.depth -1)*30 }px"><c:if
 									test="${list.depth >= 2}">
 									<img
@@ -89,8 +89,7 @@
 						<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶▶</a></li>
 					</ul>
 				</div>
-				
-			
+				<!-- pager 추가 -->
 				<c:choose>
 					<c:when test="${empty authUser }">
 					</c:when>

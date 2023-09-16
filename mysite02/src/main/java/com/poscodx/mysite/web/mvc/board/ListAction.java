@@ -16,9 +16,12 @@ public class ListAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		String spage = request.getParameter("page");
+		Long boardDisplay = 7L;
+		Long intervalPage = 3L;
 		Long page = 1L;
+		
+		String spage = request.getParameter("page");
+		
 		if (spage != null && !spage.isEmpty()) {
 			page = Long.parseLong(spage);
 		}
@@ -27,8 +30,6 @@ public class ListAction implements Action {
 		if (totalCount == null) {
 			totalCount = 0L;
 		}
-		Long boardDisplay = 5L;
-		Long intervalPage = 5L;
 		
 		Long totalPage;
 		if (totalCount % boardDisplay == 0) {
@@ -41,16 +42,15 @@ public class ListAction implements Action {
 		Long startPage = startGroup * intervalPage + 1;
 		Long endPage = Math.min(startGroup * intervalPage + intervalPage, totalPage);
 		
-		
-		Long listPage = (page - 1) * intervalPage;
-		List<BoardVo> list = new BoardDao().findAllByPage(listPage, intervalPage);
+		Long listPage = (page - 1) * boardDisplay;
+		List<BoardVo> list = new BoardDao().findAllByPage(listPage, boardDisplay);
 
 		request.setAttribute("list", list);
 		request.setAttribute("page", page);
 		request.setAttribute("startPage", startPage);
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("totalPage", totalPage);
-		request.setAttribute("intervalPage", intervalPage);
+		request.setAttribute("boardDisplay", boardDisplay);
 		request.setAttribute("totalCount", totalCount);
 		
 		WebUtil.forward("board/list", request, response);

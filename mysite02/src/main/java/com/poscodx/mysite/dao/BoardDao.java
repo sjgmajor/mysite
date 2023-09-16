@@ -17,7 +17,7 @@ public class BoardDao {
 	private static String DriverId = "webdb";
 	private static String DriverPassword = "webdb";
 
-	public List<BoardVo> findAllByPage(Long listPage, Long intervalPage) {
+	public List<BoardVo> findAllByPage(Long listPage, Long boardDisplay) {
 		List<BoardVo> result = new ArrayList<>();
 
 		Connection conn = null;
@@ -35,7 +35,7 @@ public class BoardDao {
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, listPage);
-			pstmt.setLong(2, intervalPage);
+			pstmt.setLong(2, boardDisplay);
 			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
