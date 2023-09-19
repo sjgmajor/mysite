@@ -11,7 +11,6 @@ public class BoardVo {
 	private Long depth;
 	private Long userNo;
 	private String name;
-	
 	public String getName() {
 		return name;
 	}

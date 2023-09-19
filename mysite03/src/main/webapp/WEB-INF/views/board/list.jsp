@@ -31,16 +31,14 @@
 					</tr>
 					<c:set var="count" value="${fn:length(list) }" />
 					<c:forEach items="${list }" var="list" varStatus="status">
-						<input type="hidden" name="no" value="${list.no }">
-						<input type="hidden" name="userNo" value="${list.userNo }">
 						<tr>
-							<td>${(totalCount - ((page -1) * boardDisplay )) - status.index }</td>
-							<td style="padding-left: ${(list.depth -1)*30 }px"><c:if
-									test="${list.depth >= 2}">
+							<td>${(pageVo.totalCount - ((pageVo.page -1) * pageVo.boardDisplay )) - status.index }</td>
+							<td style="padding-left: ${(list.depth -1)*30 }px">
+							<c:if	test="${list.depth >= 2}">
 									<img
 										src="${pageContext.request.contextPath }/assets/images/reply.png">
 								</c:if> <a
-								href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a></td>
+								href="${pageContext.request.contextPath }/board/view/${list.no}">${list.title }</a></td>
 							<td>${list.name }</td>
 							<td>${list.hit }</td>
 							<td><fmt:parseDate var="parsedRegDate"
@@ -48,7 +46,7 @@
 									value="${parsedRegDate}" pattern="yyyy-MM-dd" type="date" /></td>
 							<c:if test="${list.userNo eq authUser.no }">
 								<td><a
-									href="${pageContext.request.contextPath }/board?a=delete&no=${list.no }"
+									href="${pageContext.request.contextPath }/board/delete/${list.no }"
 									class="del">삭제</a></td>
 							</c:if>
 						</tr>
@@ -57,36 +55,33 @@
 				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-					<li><a href="${pageContext.request.contextPath }/board?page=1">◀◀</a></li>
 					<c:choose>
-							<c:when test="${startPage == 1 }">
-								<li><a href="${pageContext.request.contextPath }/board?page=1">◀
-						</a></li>
+							<c:when test="${pageVo.startPage == 1 }">
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${startPage - intervalPage}">◀</a></li>
+								<li><a href="${pageContext.request.contextPath }/board/${1 }">◀◀</a></li>
+								<li><a href="${pageContext.request.contextPath }/board/${pageVo.startPage - pageVo.intervalPage}">◀</a></li>
 							</c:otherwise>
 						</c:choose>
 					
-						<c:forEach begin="${startPage }" end="${endPage }" step="1" var="paging">
+						<c:forEach begin="${pageVo.startPage }" end="${pageVo.endPage }" step="1" var="paging">
 						<c:choose>
-							<c:when test="${paging == page }">
-								<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+							<c:when test="${paging == pageVo.page }">
+								<li class="selected"><a href="${pageContext.request.contextPath }/board/${paging}">${paging}</a></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${paging}">${paging}</a></li>
+								<li><a href="${pageContext.request.contextPath }/board/${paging}">${paging}</a></li>
 							</c:otherwise>
 						</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${totalPage == endPage }">
-							<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶</a></li>
+							<c:when test="${pageVo.totalPage == pageVo.endPage }">
 							</c:when>
 							<c:otherwise>
-								<li><a href="${pageContext.request.contextPath }/board?page=${endPage + 1}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath }/board/${pageVo.endPage + 1}">▶</a></li>
+								<li><a href="${pageContext.request.contextPath }/board/${pageVo.totalPage}">▶▶</a></li>
 							</c:otherwise>
 						</c:choose>
-						<li><a href="${pageContext.request.contextPath }/board?page=${totalPage}">▶▶</a></li>
 					</ul>
 				</div>
 				
@@ -96,7 +91,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="bottom">
-							<a href="${pageContext.request.contextPath }/board?a=writeform&userNo=${authUser.no }"
+							<a href="${pageContext.request.contextPath }/board/write/${authUser.no }"
 								id="new-book">글쓰기</a>
 						</div>
 					</c:otherwise>
