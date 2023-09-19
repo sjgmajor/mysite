@@ -3,11 +3,11 @@
 
 <mapper namespace="guestbook">
 	
-	<select id="findAll" resultType="guestbookVo">
+	<select id="findAll" resultType="guestbookvo">
 		<![CDATA[
-		  select no, name, contents, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate 
-		    from guestbook 
-        order by reg_date desc
+		  	  select no, name, contents, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate 
+		        from guestbook 
+            order by reg_date desc
 		]]>
 	</select>
 

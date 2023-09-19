@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
@@ -34,35 +35,95 @@ public class BoardController {
 	@RequestMapping(value="/delete/{no}")
 	public String delete(@PathVariable("no") Long no) {
 		boardService.deleteContents(no);
-		return "redirect:/board";
+		return "redirect:/board/1";
 	}
 	
-	@RequestMapping(value="/write/{userNo}", method=RequestMethod.GET)
-	public String update(HttpSession session, @PathVariable("userNo") Long userNo, Model model) {
+	@RequestMapping("/view/{no}")
+	public String view(@PathVariable("no") Long no, Model model) {
+		BoardVo boardVo = boardService.getContents(no);
+		boardService.updatehit(no);
+		model.addAttribute("boardVo", boardVo);
+		return "board/view";
+	}	
+	
+	@RequestMapping(value="/write", method=RequestMethod.GET)
+	public String write(HttpSession session) {
 		// Access Control(접근 제어)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/user/login";
 		}
 		///////////////////////////////////////////////////////////
-		
-		model.addAttribute("userNo", userNo);
 		
 		return "board/write";
 	}
-
-	@RequestMapping(value="/write/{no}", method=RequestMethod.POST)
-	public String update(HttpSession session, @PathVariable("no") Long no, BoardVo boardVo) {
+	
+	@RequestMapping(value="/write", method=RequestMethod.POST)
+	public String write(HttpSession session, Long userNo,
+			@RequestParam(value="no", required=false, defaultValue="") Long no,
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="contents", required=true, defaultValue="") String contents) {
 		// Access Control(접근 제어)
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/user/login";
 		}
 		///////////////////////////////////////////////////////////
-		boardVo.setNo(no);
-		boardService.writeContents(no);
+		userNo = authUser.getNo();
+		System.out.println(no);
+		boardService.writeContents(no, userNo, title, contents);
 		
-		return "redirect:/board";
+		return "redirect:/board/1";
 	}
+	
+	@RequestMapping(value="/modify/{no}")
+	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
+		// Access Control(접근 제어)
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/user/login";
+		}
+		///////////////////////////////////////////////////////////
+		BoardVo boardVo = boardService.getContents(no);
 
+		model.addAttribute("boardVo", boardVo);
+		return "board/modify";
+	}
+	
+	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
+	public String modify(HttpSession session, @PathVariable("no") Long no,
+			@RequestParam(value="title", required=true, defaultValue="") String title,
+			@RequestParam(value="contents", required=true, defaultValue="") String contents) {
+		// Access Control(접근 제어)
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/user/login";
+		}
+		///////////////////////////////////////////////////////////
+		
+		boardService.modifyContents(no, title, contents);
+		
+		return "redirect:/board/1";
+	}	
+	
+	@RequestMapping(value="/reply/{no}")	
+	public String reply(
+		HttpSession session, 
+		@PathVariable("no") Long no,
+		Model model) {
+		// Access Control(접근 제어)
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/user/login";
+		}
+		///////////////////////////////////////////////////////////
+		
+		BoardVo boardVo = boardService.getContents(no);
+		boardVo.setoNo(boardVo.getoNo() + 1);
+		boardVo.setDepth(boardVo.getDepth() + 1);
+			
+		model.addAttribute("boardVo", boardVo);
+		
+		return "board/reply";
+	}	
 }

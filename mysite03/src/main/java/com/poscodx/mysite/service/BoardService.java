@@ -22,7 +22,6 @@ public class BoardService {
 		PagingVo pagingVo = new PagingVo();
 		pagingVo.setPage(page);
 		pagingVo.setTotalCount(boardRepository.findTotalCount());
-		
 		return pagingVo;
 	}
 	
@@ -30,20 +29,48 @@ public class BoardService {
 		boardRepository.deleteByNo(no);
 	}
 	
-	public void writeContents(Long no) {
-		
+	public void writeContents(Long no, Long userNo, String title, String contents) {
 		BoardVo boardVo = new BoardVo();
-
-		if (no == null) {
-			Long maxgNo = boardRepository.findMaxgNo();
-			boardVo.setgNo(maxgNo + 1L);
-			boardRepository.insert(boardVo);
+		
+		boardVo.setContents(contents);
+		boardVo.setTitle(title);
+		boardVo.setUserNo(userNo);
+		if(no == null) {
+		Long maxgNo = boardRepository.findMaxgNo();
+		boardVo.setgNo(maxgNo + 1L);
+		boardRepository.insert(boardVo);
 		}
 		else {
-		   	  boardVo  = boardRepository.findAllByNo(no);
-			  boardRepository.update(boardVo);
-			  boardRepository.insertReply(boardVo);
-		 	 }
+			BoardVo parentBoard = boardRepository.findAllByNo(no);
+
+			if (parentBoard != null) {
+				boardVo.setgNo(parentBoard.getgNo());
+				Long newONo = parentBoard.getoNo() + 1L;
+		        boardVo.setoNo(newONo);
+		        Long newDepth = parentBoard.getDepth() + 1L;
+		        boardVo.setDepth(newDepth);
+		        boardRepository.update(boardVo);
+		        boardRepository.insertReply(boardVo);
+			}
+		}
 	}
-	
+
+	public BoardVo getContents(Long no) {
+		return boardRepository.findAllByNo(no);
+	}
+
+	public void modifyContents(Long no, String title, String contents) {
+		BoardVo boardVo = new BoardVo();
+		
+		boardVo.setContents(contents);
+		boardVo.setTitle(title);
+		boardVo.setNo(no);
+		
+		boardRepository.modify(boardVo);
+		
+	}
+
+	public void updatehit(Long no) {
+		boardRepository.updateByNo(no);
+	}
 }

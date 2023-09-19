@@ -54,7 +54,6 @@ public class ListAction implements Action {
 		request.setAttribute("boardDisplay", boardDisplay);
 		request.setAttribute("intervalPage", intervalPage);
 		request.setAttribute("totalCount", totalCount);
-		
 		WebUtil.forward("board/list", request, response);
 	}
 }

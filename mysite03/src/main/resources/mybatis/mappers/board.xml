@@ -5,7 +5,8 @@
 
 	<select id="findAllByPage" resultType="boardvo" parameterType="map">
 		<![CDATA[
-			  select b.user_no, b.title, a.name, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.no 
+			  select b.user_no as userNo, b.title, a.name, b.hit, date_format(b.reg_date, '%Y-%m-%d') as regDate,
+			  		 b.g_no as gNo, b.o_no as oNo, b.depth, b.no 
 			    from user a, board b
 		       where a.no = b.user_no
 	    	order by b.g_no desc, b.o_no asc
@@ -34,16 +35,12 @@
 		   into board
 		 values (null, #{title}, #{contents}, 0, now(), #{gNo}, 1, 1, #{userNo})
 		]]>
-		<selectKey keyProperty="no" resultType="long" order="AFTER">
-			<![CDATA[
-			select last_insert_id();
-			]]>
-		</selectKey>
 	</insert>
 	
 	<select id="findAllByNo" resultType="boardvo" parameterType="long">
 		<![CDATA[
-			  select b.user_no, b.title, a.name, b.hit, b.reg_date, b.g_no, b.o_no, b.depth, b.no, b.contents
+			  select b.user_no as userNo, b.title, a.name, b.hit, b.reg_date as regDate,
+			  		 b.g_no as gNo, b.o_no as oNO, b.depth, b.no, b.contents
      		    from user a, board b
                where a.no = b.user_no
                  and b.no = #{no }
@@ -52,8 +49,9 @@
 	
 	<select id="findMaxgNo" resultType="long">
 		<![CDATA[
-			  select ifnull((select MAX(g_no) from board), 0)
-			    from board
+			  select g_no
+			    from board a
+	           where a.g_no = (select ifnull(MAX(g_no),0) from board);
 		]]>
 	</select>
 	
@@ -61,7 +59,7 @@
 		<![CDATA[
 			update board
 			   set o_no = o_no + 1
-			 where g_no=#{gNo } and o_no >= #{oNo + 1L}
+			 where g_no=#{gNo } and o_no >= #{oNo}
 			   
 		]]>
 	</update> 
@@ -70,7 +68,7 @@
 		<![CDATA[
 		 insert
 		   into board
-		 values(null, #{title }, #{contents}, 0, now(), #{gNo}, #{oNo + 1L}, #{depth + 1L}, #{userNo})
+		 values(null, #{title }, #{contents}, 0, now(), #{gNo}, #{oNo}, #{depth}, #{userNo})
 		]]>
 	</insert>
 
@@ -82,7 +80,7 @@
 		]]>
 	</update>
 
-	<update id="modify" parameterType="long">
+	<update id="updateByNo" parameterType="long">
 		<![CDATA[
 			update board
 			   set hit = hit + 1

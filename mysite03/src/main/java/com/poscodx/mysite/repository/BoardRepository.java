@@ -18,9 +18,10 @@ public class BoardRepository {
 	public List<BoardVo> findAllByPage(Long page, Long boardDisplay) {
 		page = (page - 1) * boardDisplay;
 		Map<String, Object> map = new HashMap<>();
-		map.put("page", page);
 		map.put("boardDisplay", boardDisplay);
-		return sqlSession.selectList("board.findAllByPage", map);
+		map.put("page", page);
+		List<BoardVo> list = sqlSession.selectList("board.findAllByPage", map);
+		return list;
 	}
 	
 	public Long findTotalCount() {
@@ -28,12 +29,12 @@ public class BoardRepository {
 	}
 	
 	public Boolean deleteByNo(Long no) {
-		int count = sqlSession.selectOne("board.deleteByNo", no);
+		int count = sqlSession.delete("board.deleteByNo", no);
 		return count == 1;
 	}
 	
 	public Boolean insert(BoardVo boardVo) {
-		int count = sqlSession.selectOne("board.insert", boardVo);
+		int count = sqlSession.insert("board.insert", boardVo);
 		return count == 1;
 	}
 	
@@ -46,22 +47,22 @@ public class BoardRepository {
 	}
 
 	public Boolean update(BoardVo boardVo) {
-		int count = sqlSession.selectOne("board.update", boardVo);
+		int count = sqlSession.update("board.update", boardVo);
 		return count == 1;
 	}
 
 	public Boolean insertReply(BoardVo boardVo) {
-		int count = sqlSession.selectOne("board.insertReply", boardVo);
+		int count = sqlSession.insert("board.insertReply", boardVo);
 		return count == 1;
 	}
 
 	public Boolean modify(BoardVo boardVo) {
-		int count = sqlSession.selectOne("board.modify", boardVo);
+		int count = sqlSession.update("board.modify", boardVo);
 		return count == 1;
 	}
 
 	public boolean updateByNo(Long no) {
-		int count = sqlSession.selectOne("board.updateByNo", no);
+		int count = sqlSession.update("board.updateByNo", no);
 		return count == 1;
 	}
 }

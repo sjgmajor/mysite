@@ -96,4 +96,9 @@ public class UserController {
 		return "redirect:/user/update";
 	}
 	
+//	@ExceptionHandler(Exception.class)
+//	public String handlerException() {
+//		return "error/exception";
+//	}
+	
 }

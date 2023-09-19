@@ -41,9 +41,7 @@
 								href="${pageContext.request.contextPath }/board/view/${list.no}">${list.title }</a></td>
 							<td>${list.name }</td>
 							<td>${list.hit }</td>
-							<td><fmt:parseDate var="parsedRegDate"
-									value="${list.regDate}" pattern="yyyy-MM-dd" /> <fmt:formatDate
-									value="${parsedRegDate}" pattern="yyyy-MM-dd" type="date" /></td>
+							<td>${list.regDate }</td>
 							<c:if test="${list.userNo eq authUser.no }">
 								<td><a
 									href="${pageContext.request.contextPath }/board/delete/${list.no }"
@@ -91,7 +89,7 @@
 					</c:when>
 					<c:otherwise>
 						<div class="bottom">
-							<a href="${pageContext.request.contextPath }/board/write/${authUser.no }"
+							<a href="${pageContext.request.contextPath }/board/write"
 								id="new-book">글쓰기</a>
 						</div>
 					</c:otherwise>
