@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.poscodx.mysite.security.Auth;
+import com.poscodx.mysite.security.AuthUser;
 import com.poscodx.mysite.service.BoardService;
 import com.poscodx.mysite.vo.BoardVo;
 import com.poscodx.mysite.vo.PagingVo;
@@ -46,29 +48,20 @@ public class BoardController {
 		return "board/view";
 	}	
 	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String write(HttpSession session) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		///////////////////////////////////////////////////////////
 		
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String write(HttpSession session, Long userNo,
+	public String write(@AuthUser UserVo authUser, Long userNo,
 			@RequestParam(value="no", required=false, defaultValue="") Long no,
 			@RequestParam(value="title", required=true, defaultValue="") String title,
 			@RequestParam(value="contents", required=true, defaultValue="") String contents) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		///////////////////////////////////////////////////////////
+		
 		userNo = authUser.getNo();
 		System.out.println(no);
 		boardService.writeContents(no, userNo, title, contents);
@@ -76,48 +69,29 @@ public class BoardController {
 		return "redirect:/board/1";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify/{no}")
-	public String modify(HttpSession session, @PathVariable("no") Long no, Model model) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		///////////////////////////////////////////////////////////
+	public String modify(@PathVariable("no") Long no, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
 
 		model.addAttribute("boardVo", boardVo);
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify/{no}", method=RequestMethod.POST)
-	public String modify(HttpSession session, @PathVariable("no") Long no,
+	public String modify(@AuthUser UserVo authUser, @PathVariable("no") Long no,
 			@RequestParam(value="title", required=true, defaultValue="") String title,
 			@RequestParam(value="contents", required=true, defaultValue="") String contents) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		///////////////////////////////////////////////////////////
 		
 		boardService.modifyContents(no, title, contents);
 		
 		return "redirect:/board/1";
 	}	
 	
+	@Auth
 	@RequestMapping(value="/reply/{no}")	
-	public String reply(
-		HttpSession session, 
-		@PathVariable("no") Long no,
-		Model model) {
-		// Access Control(접근 제어)
-		UserVo authUser = (UserVo) session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/user/login";
-		}
-		///////////////////////////////////////////////////////////
-		
+	public String reply( @PathVariable("no") Long no, Model model) {
 		BoardVo boardVo = boardService.getContents(no);
 		boardVo.setoNo(boardVo.getoNo() + 1);
 		boardVo.setDepth(boardVo.getDepth() + 1);
