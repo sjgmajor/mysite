@@ -12,7 +12,7 @@
 		]]>
 	</select>
 	
-	<update id="UpdateSite" parameterType="sitevo">
+	<update id="Update" parameterType="sitevo">
 		<![CDATA[
 			update site
 			   set title = #{title},

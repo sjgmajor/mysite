@@ -63,7 +63,6 @@ public class BoardController {
 			@RequestParam(value="contents", required=true, defaultValue="") String contents) {
 		
 		userNo = authUser.getNo();
-		System.out.println(no);
 		boardService.writeContents(no, userNo, title, contents);
 		
 		return "redirect:/board/1";

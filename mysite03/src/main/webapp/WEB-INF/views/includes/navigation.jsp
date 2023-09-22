@@ -10,5 +10,13 @@
 		<li>
 		<li><a href="${pageContext.request.contextPath }/board/1">게시판</a>
 		<li>
+		<c:choose>
+			<c:when test="${'ADMIN' eq authUser.role}">
+				<li><a href="${pageContext.request.contextPath }/admin">관리자페이지</a>
+			</c:when>
+			<c:otherwise>
+			</c:otherwise>
+		</c:choose>
+		<li>
 	</ul>
 </div>

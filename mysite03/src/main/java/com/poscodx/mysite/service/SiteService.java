@@ -8,7 +8,7 @@ import com.poscodx.mysite.vo.SiteVo;
 
 @Service
 public class SiteService {
-	
+
 	@Autowired
     private SiteRepository siteRepository;
 	
@@ -17,6 +17,6 @@ public class SiteService {
 	}
 	
 	public void UpdateSite(SiteVo siteVo) {
-		siteRepository.UpdateSite(siteVo);
+		siteRepository.Update(siteVo);
 	}
 }

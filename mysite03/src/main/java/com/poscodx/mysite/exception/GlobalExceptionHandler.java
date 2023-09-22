@@ -1,6 +1,5 @@
 package com.poscodx.mysite.exception;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -14,12 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 	private static final Log logger = LogFactory.getLog(GlobalExceptionHandler.class);
 	
-	@ExceptionHandler(IOException.class)
+	@ExceptionHandler(Exception.class)
 	public String handlerException(Model model, Exception e) {
-		// 1. 로깅(Logging)
+		//1. 로깅(Logging)
 		StringWriter errors = new StringWriter();
 		e.printStackTrace(new PrintWriter(errors));
-		System.out.println(errors.toString());
 		logger.error(errors.toString());
 		
 		//2. 사과 페이지

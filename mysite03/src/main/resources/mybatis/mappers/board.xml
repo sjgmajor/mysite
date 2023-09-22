@@ -49,9 +49,8 @@
 	
 	<select id="findMaxgNo" resultType="long">
 		<![CDATA[
-			  select g_no
-			    from board a
-	           where a.g_no = (select ifnull(MAX(g_no),0) from board);
+			  select ifnull(MAX(g_no),0)
+			    from board
 		]]>
 	</select>
 	
