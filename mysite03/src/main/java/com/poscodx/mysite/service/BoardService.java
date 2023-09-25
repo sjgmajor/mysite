@@ -36,8 +36,6 @@ public class BoardService {
 		boardVo.setTitle(title);
 		boardVo.setUserNo(userNo);
 		if(no == null) {
-		Long maxgNo = boardRepository.findMaxgNo();
-		boardVo.setgNo(maxgNo + 1L);
 		boardRepository.insert(boardVo);
 		}
 		else {
@@ -45,12 +43,10 @@ public class BoardService {
 
 			if (parentBoard != null) {
 				boardVo.setgNo(parentBoard.getgNo());
-				Long newONo = parentBoard.getoNo() + 1L;
-		        boardVo.setoNo(newONo);
-		        Long newDepth = parentBoard.getDepth() + 1L;
-		        boardVo.setDepth(newDepth);
+		        boardVo.setoNo(parentBoard.getoNo() + 1L);
+		        boardVo.setDepth(parentBoard.getDepth() + 1L);
 		        boardRepository.update(boardVo);
-		        boardRepository.insertReply(boardVo);
+		        boardRepository.insert(boardVo);
 			}
 		}
 	}

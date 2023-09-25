@@ -21,7 +21,9 @@
 					<img id="profile" src="${pageContext.request.contextPath }${siteVo.profile }">
 					<h2>${siteVo.welcome }</h2>
 					<p>${fn:replace(siteVo.description, newline, '<br>')}
-						<br> <a href="${pageContext.request.contextPath}/guestbook">방명록</a>에 글 남기기<br>
+						<br> 
+						<br>
+						<a href="${pageContext.request.contextPath}/guestbook">방명록</a>에 글 남기기<br>
 					</p>
 				</div>
 			</div>

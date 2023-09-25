@@ -46,7 +46,7 @@
 			<mvc:exclude-mapping path="/user/logout" />
 			<bean class="com.poscodx.mysite.security.AuthInterceptor" />
 		</mvc:interceptor>
-				<mvc:interceptor>
+		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/assets/**" />
 			<mvc:exclude-mapping path="/user/auth" />
@@ -89,7 +89,10 @@
 			</list>	   	
 	   </property>
 	</bean>
-
+	
+	<!-- ApplicationContextEventListener -->
+	<bean class="com.poscodx.mysite.event.ApplicationContextEventListener" />
+	
 	<context:annotation-config />
 	<context:component-scan base-package="com.poscodx.mysite.controller, com.poscodx.mysite.exception" />
 </beans>

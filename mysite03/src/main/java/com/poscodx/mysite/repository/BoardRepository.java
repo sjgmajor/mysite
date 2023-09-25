@@ -41,18 +41,9 @@ public class BoardRepository {
 	public BoardVo findAllByNo(Long no) {
 		return sqlSession.selectOne("board.findAllByNo", no);
 	}
-	
-	public Long findMaxgNo() {
-		return sqlSession.selectOne("board.findMaxgNo");
-	}
 
 	public Boolean update(BoardVo boardVo) {
 		int count = sqlSession.update("board.update", boardVo);
-		return count == 1;
-	}
-
-	public Boolean insertReply(BoardVo boardVo) {
-		int count = sqlSession.insert("board.insertReply", boardVo);
 		return count == 1;
 	}
 

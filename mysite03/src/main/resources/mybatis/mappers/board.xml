@@ -30,11 +30,22 @@
 	</delete>
 	
 	<insert id="insert" parameterType="boardvo">
-		<![CDATA[
-		 insert
-		   into board
-		 values (null, #{title}, #{contents}, 0, now(), #{gNo}, 1, 1, #{userNo})
-		]]>
+		<choose>
+			<when test="gNo == null">
+			<![CDATA[
+		 		insert
+		   		  into board
+		 	    values (null, #{title}, #{contents}, 0, now(), (select ifnull(MAX(g_no), 0) + 1 from board a), 1, 1, #{userNo})
+			]]>
+			</when>
+			<otherwise>
+			<![CDATA[
+		 		insert
+		   		  into board
+		 		values(null, #{title }, #{contents}, 0, now(), #{gNo}, #{oNo}, #{depth}, #{userNo})
+			]]>
+			</otherwise>
+		</choose>
 	</insert>
 	
 	<select id="findAllByNo" resultType="boardvo" parameterType="long">
@@ -47,13 +58,6 @@
 		]]>
 	</select>
 	
-	<select id="findMaxgNo" resultType="long">
-		<![CDATA[
-			  select ifnull(MAX(g_no),0)
-			    from board
-		]]>
-	</select>
-	
 	<update id="update" parameterType="boardvo">
 		<![CDATA[
 			update board
@@ -62,14 +66,6 @@
 			   
 		]]>
 	</update> 
-	
-	<insert id="insertReply" parameterType="boardvo">
-		<![CDATA[
-		 insert
-		   into board
-		 values(null, #{title }, #{contents}, 0, now(), #{gNo}, #{oNo}, #{depth}, #{userNo})
-		]]>
-	</insert>
 
 	<update id="modify" parameterType="boardvo">
 		<![CDATA[
