@@ -44,7 +44,7 @@ public class FileuploadService {
 			os.close();
 			
 			url = URL_PATH + "/" + saveFilename;
-			
+			System.out.println(url);
 		} catch(IOException ex) {
 			throw new FileUploadServiceException(ex.toString());
 		}

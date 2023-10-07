@@ -52,8 +52,6 @@
 		<error-code>500</error-code>
 		<location>/WEB-INF/views/error/500.jsp</location>
 	</error-page>
-
-
 	
 	<!-- Default Files -->	
 	<welcome-file-list>

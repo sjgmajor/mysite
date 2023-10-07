@@ -17,7 +17,6 @@
 		<div id="content">
 			<div id="user">
 				<form:form
-					modelAttribute="userVo" 
 					id="join-form"
 					name="joinForm"
 					method="post"
@@ -39,9 +38,7 @@
 					<label class="block-label" for="email">이메일</label>
 					<form:input path="email" />
 					<input type="button" value="중복체크">
-					<p style="padding:3px 0 5px 0; text-align: left; color: #f00">
-						<form:errors path="email" />
-					</p>
+
 					
 					<label class="block-label"><spring:message code="user.join.label.password" /></label>
 					<form:password path="password" />
