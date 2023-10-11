@@ -12,7 +12,6 @@ import org.springframework.core.env.Environment;
 @Configuration
 @PropertySource("classpath:com/poscodx/mysite/config/app/jdbc.properties")
 public class DBConfig {
-	
 	@Autowired
 	private Environment env;
 	

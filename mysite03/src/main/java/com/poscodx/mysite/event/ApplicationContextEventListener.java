@@ -13,7 +13,6 @@ import com.poscodx.mysite.service.SiteService;
 import com.poscodx.mysite.vo.SiteVo;
 
 public class ApplicationContextEventListener {
-	
 	@Autowired
 	private ApplicationContext applicationContext;
 	
@@ -25,18 +24,19 @@ public class ApplicationContextEventListener {
 		SiteVo site = siteService.getSite();
 		
 		MutablePropertyValues propertyValues = new MutablePropertyValues();
-	    propertyValues.add("title", site.getTitle());
-	    propertyValues.add("profile", site.getProfile());
-	    propertyValues.add("welcome", site.getWelcome());
-	    propertyValues.add("description", site.getDescription());
-	      
-	    GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-	    beanDefinition.setBeanClass(SiteVo.class);
-	    beanDefinition.setPropertyValues(propertyValues);
-	      
-	    AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
-	    BeanDefinitionRegistry registry = (BeanDefinitionRegistry)factory;
-	    registry.registerBeanDefinition("site", beanDefinition);      
-
+		propertyValues.add("title", site.getTitle());
+		propertyValues.add("profile", site.getProfile());
+		propertyValues.add("welcome", site.getWelcome());
+		propertyValues.add("description", site.getDescription());
+		
+		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+		beanDefinition.setBeanClass(SiteVo.class);
+		beanDefinition.setPropertyValues(propertyValues);
+		
+		AutowireCapableBeanFactory factory = applicationContext.getAutowireCapableBeanFactory();
+		BeanDefinitionRegistry registry = (BeanDefinitionRegistry)factory;
+		
+		registry.registerBeanDefinition("site", beanDefinition);		
 	}
+	
 }

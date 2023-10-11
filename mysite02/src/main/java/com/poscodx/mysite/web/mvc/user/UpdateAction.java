@@ -10,33 +10,32 @@ import javax.servlet.http.HttpSession;
 import com.poscodx.mysite.dao.UserDao;
 import com.poscodx.mysite.vo.UserVo;
 import com.poscodx.web.mvc.Action;
-import com.poscodx.web.utils.WebUtil;
 
 public class UpdateAction implements Action {
-
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Access Control(보안, 인증체크)
+		HttpSession session = request.getSession();
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			response.sendRedirect(request.getContextPath());
+			return;
+		}
+		//////////////////////////////////////////////////////
+		
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String gender = request.getParameter("gender");
-		String email = request.getParameter("email");
+		
+		UserVo vo = new UserVo();
+		vo.setName(name);
+		vo.setPassword(password);
+		vo.setGender(gender);
+		vo.setNo(authUser.getNo());
 
-		HttpSession session = request.getSession();
-        UserVo authUser  = (UserVo) session.getAttribute("authUser");
-        
-	    UserVo userVo = new UserVo();
-	    
-	    userVo.setNo(authUser.getNo());
-	    userVo.setName(name);
-	    userVo.setEmail(email);
-	    userVo.setPassword(password);
-	    userVo.setGender(gender);
-	    
-	    new UserDao().update(userVo);
-
-    	UserVo updatedUserVo = new UserDao().findByNo(authUser.getNo());
-
-	    session.setAttribute("userVo", updatedUserVo);
-	    WebUtil.forward("/user/updateform", request, response);
-    }
+		new UserDao().update(vo);
+		authUser.setName(name);
+		
+		response.sendRedirect(request.getContextPath() + "/user?a=updateform");
+	}
 }

@@ -9,22 +9,23 @@ import org.springframework.util.StopWatch;
 @Component
 @Aspect
 public class MeasureExecutionTimeAspect {
-	@Around("execution(* *..*.repository.*.*(..)) || execution(* *..*.service.*.*(..)) || execution(* *..*.controller	.*.*(..))")
+	@Around("execution(* *..*.repository.*.*(..)) || execution(* *..*.service.*.*(..)) || execution(* *..*.controller.*.*(..))")
 	public Object adviceAround(ProceedingJoinPoint pjp) throws Throwable {
-		// Before
+		// before
 		StopWatch sw = new StopWatch();
 		sw.start();
 		
 		Object result = pjp.proceed();
 		
-		// After
+		// after
 		sw.stop();
 		long totalTime = sw.getTotalTimeMillis();
 		String className = pjp.getTarget().getClass().getName();
 		String methodName = pjp.getSignature().getName();
 		String taskName = className + "." + methodName;
-		System.out.println("[Execution Time][" + taskName + "] " + totalTime + "mills");
 		
+		System.out.println("[Execution Time][" + taskName + "] " + totalTime + "mills");
+
 		return result;
 	}
 }

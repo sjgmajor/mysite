@@ -4,19 +4,13 @@ public class BoardVo {
 	private Long no;
 	private String title;
 	private String contents;
-	private Long hit;
 	private String regDate;
-	private Long gNo;
-	private Long oNo;
-	private Long depth;
+	private Integer hit;
+	private Integer groupNo;
+	private Integer orderNo;
+	private Integer depth;
 	private Long userNo;
-	private String name;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	private String userName;
 	public Long getNo() {
 		return no;
 	}
@@ -35,34 +29,34 @@ public class BoardVo {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public Long getHit() {
-		return hit;
-	}
-	public void setHit(Long hit) {
-		this.hit = hit;
-	}
 	public String getRegDate() {
 		return regDate;
 	}
 	public void setRegDate(String regDate) {
 		this.regDate = regDate;
 	}
-	public Long getgNo() {
-		return gNo;
+	public Integer getHit() {
+		return hit;
 	}
-	public void setgNo(Long gNo) {
-		this.gNo = gNo;
+	public void setHit(Integer hit) {
+		this.hit = hit;
 	}
-	public Long getoNo() {
-		return oNo;
+	public Integer getGroupNo() {
+		return groupNo;
 	}
-	public void setoNo(Long oNo) {
-		this.oNo = oNo;
+	public void setGroupNo(Integer groupNo) {
+		this.groupNo = groupNo;
 	}
-	public Long getDepth() {
+	public Integer getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(Integer orderNo) {
+		this.orderNo = orderNo;
+	}
+	public Integer getDepth() {
 		return depth;
 	}
-	public void setDepth(Long depth) {
+	public void setDepth(Integer depth) {
 		this.depth = depth;
 	}
 	public Long getUserNo() {
@@ -71,10 +65,16 @@ public class BoardVo {
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", hit=" + hit + ", regDate="
-				+ regDate + ", gNo=" + gNo + ", oNo=" + oNo + ", depth=" + depth + ", userNo=" + userNo + ", name="
-				+ name + "]";
+		return "BoardVo [no=" + no + ", title=" + title + ", contents=" + contents + ", regDate=" + regDate + ", hit="
+				+ hit + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth + ", userNo=" + userNo
+				+ ", userName=" + userName + "]";
 	}
 }

@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
-public class LogoutInterceptor implements HandlerInterceptor{
+public class LogoutInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -16,7 +16,7 @@ public class LogoutInterceptor implements HandlerInterceptor{
 		session.invalidate();
 		
 		response.sendRedirect(request.getContextPath());
-		
 		return false;
 	}
+
 }

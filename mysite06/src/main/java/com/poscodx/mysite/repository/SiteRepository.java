@@ -8,15 +8,14 @@ import com.poscodx.mysite.vo.SiteVo;
 
 @Repository
 public class SiteRepository {
-	
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public SiteVo find() {
 		return sqlSession.selectOne("site.find");
 	}
-	
-	public void Update(SiteVo siteVo) {
-		sqlSession.update("site.Update", siteVo);
+
+	public void update(SiteVo vo) {
+		sqlSession.update("site.update", vo);
 	}
 }

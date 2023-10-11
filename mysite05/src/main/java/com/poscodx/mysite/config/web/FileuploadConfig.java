@@ -15,7 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 @PropertySource("classpath:com/poscodx/mysite/config/web/fileupload.properties")
 public class FileuploadConfig implements WebMvcConfigurer {
-	
 	@Autowired
 	private Environment env;
 	
@@ -24,9 +23,9 @@ public class FileuploadConfig implements WebMvcConfigurer {
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
 		multipartResolver.setMaxUploadSize(env.getProperty("fileupload.maxUploadSize", Long.class));
-		multipartResolver.setMaxInMemorySize(env.getProperty("fileupload.maxInMemorySize", Integer.class));
-		multipartResolver.setDefaultEncoding(env.getProperty("fileupload.maxUploadSize"));
-				
+		multipartResolver.setMaxInMemorySize(env.getProperty("fileupload.maxUploadSize", Integer.class));
+		multipartResolver.setDefaultEncoding(env.getProperty("fileupload.defaultEncoding"));
+		
 		return multipartResolver;
 	}
 
@@ -35,6 +34,6 @@ public class FileuploadConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry
 			.addResourceHandler(env.getProperty("fileupload.resourceUrl") + "/**")
-			.addResourceLocations("file:" + env.getProperty("fileupload.uploadResource") + "/");
+			.addResourceLocations("file:" + env.getProperty("fileupload.uploadLocation") + "/");		
 	}
 }

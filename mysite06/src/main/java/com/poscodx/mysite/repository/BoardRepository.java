@@ -12,48 +12,60 @@ import com.poscodx.mysite.vo.BoardVo;
 
 @Repository
 public class BoardRepository {
-	@Autowired
-	private SqlSession sqlSession;
-	
-	public List<BoardVo> findAllByPage(Long page, Long boardDisplay) {
-		page = (page - 1) * boardDisplay;
-		Map<String, Object> map = new HashMap<>();
-		map.put("boardDisplay", boardDisplay);
-		map.put("page", page);
-		List<BoardVo> list = sqlSession.selectList("board.findAllByPage", map);
-		return list;
-	}
-	
-	public Long findTotalCount() {
-		return sqlSession.selectOne("board.findTotalCount");
-	}
-	
-	public Boolean deleteByNo(Long no) {
-		int count = sqlSession.delete("board.deleteByNo", no);
-		return count == 1;
-	}
-	
-	public Boolean insert(BoardVo boardVo) {
-		int count = sqlSession.insert("board.insert", boardVo);
-		return count == 1;
-	}
-	
-	public BoardVo findAllByNo(Long no) {
-		return sqlSession.selectOne("board.findAllByNo", no);
-	}
 
-	public Boolean update(BoardVo boardVo) {
-		int count = sqlSession.update("board.update", boardVo);
-		return count == 1;
-	}
+    @Autowired
+    private SqlSession sqlSession;
 
-	public Boolean modify(BoardVo boardVo) {
-		int count = sqlSession.update("board.modify", boardVo);
-		return count == 1;
-	}
+    public int insert(BoardVo boardVo) {
+        return sqlSession.insert("board.insert", boardVo);
+    }
 
-	public boolean updateByNo(Long no) {
-		int count = sqlSession.update("board.updateByNo", no);
-		return count == 1;
-	}
+    public List<BoardVo> findAllByPageAndKeword(String keyword, Integer page, Integer size) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("keyword", keyword);
+        map.put("startIndex", (page - 1) * size);
+        map.put("size", size);
+
+        return sqlSession.selectList("board.findAllByPageAndKeword", map);
+    }
+
+    public int update(BoardVo boardVo) {
+        return sqlSession.update("board.update", boardVo);
+    }
+
+    public int delete(Long no, Long userNo) {
+        Map<String, Long> map = new HashMap<String, Long>();
+        map.put("no", no);
+        map.put("userNo", userNo);
+
+        return sqlSession.delete("board.delete", map);
+    }
+
+    public BoardVo findByNo(Long no) {
+        return sqlSession.selectOne("board.findByNo", no);
+    }
+
+    public BoardVo findByNoAndUserNo(Long no, Long userNo) {
+        Map<String, Long> map = new HashMap<String, Long>();
+        map.put("no", no);
+        map.put("userNo", userNo);
+
+        return sqlSession.selectOne("board.findByNoAndUserNo", map);
+    }
+
+    public int updateHit(Long no) {
+        return sqlSession.update("board.updateHit", no);
+    }
+
+    public int updateOrderNo(Integer groupNo, Integer orderNo) {
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        map.put("groupNo", groupNo);
+        map.put("orderNo", orderNo);
+
+        return sqlSession.update("board.updateOrederNo", map);
+    }
+
+    public int getTotalCount(String keyword) {
+        return sqlSession.selectOne("board.totalCount", keyword);
+    }
 }

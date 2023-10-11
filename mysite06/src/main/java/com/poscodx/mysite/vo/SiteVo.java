@@ -6,6 +6,7 @@ public class SiteVo {
 	private String welcome;
 	private String profile;
 	private String description;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -41,5 +42,4 @@ public class SiteVo {
 		return "SiteVo [no=" + no + ", title=" + title + ", welcome=" + welcome + ", profile=" + profile
 				+ ", description=" + description + "]";
 	}
-	
 }

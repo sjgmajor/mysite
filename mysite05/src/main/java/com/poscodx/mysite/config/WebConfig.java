@@ -14,14 +14,13 @@ import com.poscodx.mysite.config.web.MessageSourceConfig;
 import com.poscodx.mysite.config.web.MvcConfig;
 import com.poscodx.mysite.config.web.SecurityConfig;
 import com.poscodx.mysite.event.ApplicationContextEventListener;
-import com.poscodx.mysite.security.SiteInterceptor;
+import com.poscodx.mysite.interceptor.SiteInterceptor;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"com.poscodx.mysite.controller", "com.poscodx.mysite.exception"})
-@Import({MessageSourceConfig.class, MvcConfig.class, SecurityConfig.class, FileuploadConfig.class})
-public class WebConfig implements WebMvcConfigurer{
-	
+@Import({MvcConfig.class, SecurityConfig.class, FileuploadConfig.class, MessageSourceConfig.class})
+public class WebConfig implements WebMvcConfigurer {
 	//
 	// Site Interceptor
 	//
@@ -34,11 +33,13 @@ public class WebConfig implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry
 			.addInterceptor(siteInterceptor())
-			.addPathPatterns("/user/auth")
-			.excludePathPatterns("/assets/**","/user/auth", "/user/logout");
+			.addPathPatterns("/**")
+			.excludePathPatterns("/assets/**");
 	}
-	
-	//ApplicationContextEventListener
+
+	//
+	// Application ConextEvent Listener
+	//
 	@Bean
 	public ApplicationContextEventListener applicationContextEventListener() {
 		return new ApplicationContextEventListener();

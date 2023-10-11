@@ -8,11 +8,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.poscodx.mysite.security.Auth;
-import com.poscodx.mysite.service.FileuploadService;
+import com.poscodx.mysite.service.FileUploadService;
 import com.poscodx.mysite.service.SiteService;
 import com.poscodx.mysite.vo.SiteVo;
 
@@ -30,30 +29,32 @@ public class AdminController {
 	private SiteService siteService;
 
 	@Autowired
-	private FileuploadService fileuploadService;
-	
-	@RequestMapping(value="")
+	private FileUploadService fileuploadService;
+
+	@RequestMapping("")
 	public String main(Model model) {
-		SiteVo siteVo = siteService.getSite();
-		model.addAttribute("siteVo", siteVo);
+		SiteVo vo = siteService.getSite();
+		model.addAttribute("siteVo", vo);
 		return "admin/main";
 	}
-	@RequestMapping("main/update")
-	public String update(SiteVo siteVo,
-						 @RequestParam("file") MultipartFile file) {
-		String url = fileuploadService.restore(file);
-		siteVo.setProfile(url);
+
+	@RequestMapping("/main/update")
+	public String update(SiteVo vo, MultipartFile file) {
+		String profile = fileuploadService.restore(file);
+		if(profile != null) {
+			vo.setProfile(profile);
+		}		
 		
 		SiteVo site = applicationContext.getBean(SiteVo.class);
+
+		siteService.updateSite(vo);
+		servletContext.setAttribute("siteVo", vo);
 		
-		siteService.UpdateSite(siteVo);
-		servletContext.setAttribute("siteVo", siteVo);
-		
-//		site.setTitle(siteVo.getTitle());
-//		site.setWelcome(siteVo.getWelcome());
-//		site.setProfile(siteVo.getProfile());
-//		site.setDescription(siteVo.getDescription());
-		BeanUtils.copyProperties(siteVo, site);
+//		site.setTitle(vo.getTitle());
+//		site.setWelcome(vo.getWelcome());
+//		site.setProfile(vo.getProfile());
+//		site.setDescription(vo.getDescription());
+		BeanUtils.copyProperties(vo, site);
 		
 		return "redirect:/admin";
 	}
@@ -71,5 +72,5 @@ public class AdminController {
 	@RequestMapping("/user")
 	public String user() {
 		return "admin/user";
-	}
+	}	
 }
