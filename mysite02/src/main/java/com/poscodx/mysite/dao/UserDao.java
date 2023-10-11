@@ -160,7 +160,7 @@ public class UserDao {
 			String sql =
 				" insert" +
 				"   into user" +
-				" values(null, ?, ?, password(?), ?, current_date())";
+				" values(null, ?, ?, password(?), ?, current_date(), 'ADMIN')";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
