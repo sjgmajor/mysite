@@ -13,7 +13,7 @@ import com.poscodx.mysite.vo.BoardVo;
 public class BoardDao {
 	
 	private static String forName = "org.mariadb.jdbc.Driver";
-	private static String url = "jdbc:mariadb://192.168.219.103:3307/webdb?charset=utf8";
+	private static String url = "jdbc:mariadb://192.168.0.183:3307/webdb?charset=utf8";
 	private static String DriverId = "webdb";
 	private static String DriverPassword = "webdb";
 
