@@ -19,7 +19,9 @@ import com.poscodx.mysite.security.LogoutInterceptor;
 @EnableWebMvc
 public class SecurityConfig implements WebMvcConfigurer {
 	
+	//
 	// Argument Resolver
+	//
 	@Bean
 	public HandlerMethodArgumentResolver handlerMethodArgumentResolver() {
 		return new AuthUserHandlerMethodArgumentResolver();
@@ -29,6 +31,7 @@ public class SecurityConfig implements WebMvcConfigurer {
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(handlerMethodArgumentResolver());
 	}
+	
 	
 	//
 	// Interceptors
@@ -54,15 +57,14 @@ public class SecurityConfig implements WebMvcConfigurer {
 		registry
 			.addInterceptor(loginInterceptor())
 			.addPathPatterns("/user/auth");
+
 		registry
 			.addInterceptor(logoutInterceptor())
 			.addPathPatterns("/user/logout");
-
+		
 		registry
 			.addInterceptor(authInterceptor())
 			.addPathPatterns("/**")
-			.excludePathPatterns("/assets/**","/user/auth", "/user/logout");
+			.excludePathPatterns("/assets/**", "/user/auth", "/user/logout");
 	}
-	
-	
 }

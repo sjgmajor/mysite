@@ -94,7 +94,6 @@
 	
 	<build>
 		<finalName>mysite06</finalName>
-		
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -103,17 +102,15 @@
 					<excludes>
 						<exclude>
 							<groupId>org.springframework.boot</groupId>
-							<artifactId>spring-boot-devtools</artifactId>
+							<artifactId>spring-boot-devtools</artifactId>		
 						</exclude>
 					</excludes>
 				</configuration>
-			</plugin>
-			
+			</plugin>			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
-					
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -122,8 +119,7 @@
 					<url>${tomcat.deploy.url}</url>
 					<server>poscodx-tomcat</server>
 				</configuration>
-			</plugin>			
-			
-		</plugins>
+			</plugin>						
+		</plugins>		
 	</build>	
 </project>

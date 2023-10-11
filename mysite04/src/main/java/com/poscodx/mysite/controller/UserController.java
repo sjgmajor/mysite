@@ -22,21 +22,22 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public String join(Model model) {
-		model.addAttribute("userVo", new UserVo());
+	public String join(@ModelAttribute UserVo userVo) {
 		return "user/join";
 	}
 
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(@Valid @ModelAttribute("userVo") UserVo userVo, BindingResult result, Model model) {
+	public String join(@ModelAttribute @Valid UserVo userVo, BindingResult result, Model model) {
 		if(result.hasErrors()) {
-//			List<ObjectError> list = result.getAllErrors();
-//			for(ObjectError error : list) {
-//				System.out.println(error);
-//			}
-			 model.addAllAttributes(result.getModel());
+			// List<ObjectError> list = result.getAllErrors();
+			// for(ObjectError error : list) {
+			//	System.out.println(error);
+			// }
+			
+			model.addAllAttributes(result.getModel());
 			return "user/join";
 		}
+		
 		userService.join(userVo);
 		return "redirect:/user/joinsuccess";
 	}
@@ -53,7 +54,7 @@ public class UserController {
 	
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(@AuthUser UserVo authUser, Model model) {
+	public String update(@AuthUser UserVo authUser, Model model) {		
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		return "user/update";
@@ -62,14 +63,13 @@ public class UserController {
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(@AuthUser UserVo authUser, UserVo userVo) {
-		// Access Control(접근 제어)
 		userVo.setNo(authUser.getNo());
 		userService.update(userVo);
 		
 		authUser.setName(userVo.getName());
 		return "redirect:/user/update";
 	}
-	
+
 	@RequestMapping("/auth")
 	public void auth() {
 	}
@@ -78,9 +78,9 @@ public class UserController {
 	public void logout() {
 	}
 	
+	
 //	@ExceptionHandler(Exception.class)
 //	public String handlerException() {
 //		return "error/exception";
 //	}
-	
 }
