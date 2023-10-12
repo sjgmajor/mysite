@@ -30,7 +30,7 @@ public class FileUploadService {
 			}
 			
 			if(file.isEmpty()) {
-				return url;
+				return "/assets/images/loopy.png";
 			}
 			
 			String originFilename = file.getOriginalFilename();
