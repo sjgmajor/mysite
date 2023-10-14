@@ -117,7 +117,7 @@
 				<version>2.2</version>
 				<configuration>
 					<url>${tomcat.deploy.url}</url>
-					<server>posco-tomcat</server>
+					<server>poscodx-tomcat</server>
 				</configuration>
 			</plugin>						
 		</plugins>		
